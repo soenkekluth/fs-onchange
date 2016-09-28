@@ -1,9 +1,8 @@
 // var EventEmitter = require('events').EventEmitter;
 const chokidar = require('chokidar');
 const assign = require('object-assign');
-// const fs = require('fs');
+const anymatch = require('anymatch');
 const path = require('path');
-
 
 const defaults = {
   ignored: [
@@ -16,13 +15,19 @@ const defaults = {
 
 // extends EventEmitter {
 
-const callbackMap = {};
+const watchers = [];
 
+class WatchedItem {
+  constructor(src, config, cb) {
+    this.src = src;
+    this.config = config;
+    this.cb = cb;
+  }
+}
 
 class Watcher {
 
   constructor() {
-    // super();
 
     this.state = {
       src: [],
@@ -32,26 +37,14 @@ class Watcher {
   }
 
   add(src, config, cb) {
-    const ext = path.extname(src);
-    let dirname = src.split('*')[0];
-
-    if (dirname) {
-      dirname = path.resolve(dirname);
-    }
 
     if (typeof cb === 'function') {
-
-      if (!callbackMap[ext]) {
-        callbackMap[ext] = [];
-      }
-
-      callbackMap[ext].push(cb);
+      watchers.push(new WatchedItem(src, config, cb));
     }
 
     this.state.src.push(src);
     this.state.config = assign({}, this.state.config, config);
   }
-
 
   remove() {}
 
@@ -69,7 +62,6 @@ class Watcher {
     this.state.watching = true;
   }
 
-
   stop() {
     if (this.watcher) {
       this.watcher.close();
@@ -77,18 +69,16 @@ class Watcher {
     }
   }
 
-
   onChange(filePath, stats) {
-    const ext = path.extname(filePath);
-    const callbacks = callbackMap[ext];
-    if (callbacks && callbacks.length) {
-      let i = -1;
-      while (++i < callbacks.length) {
-        callbacks[i]({ ext: ext, path: filePath });
+    //TODO check for ignored
+    let i = -1;
+    while (++i < watchers.length) {
+      var w = watchers[i];
+      if (anymatch(w.src, filePath)) {
+        w.cb(w);
       }
     }
   }
 }
-
 
 module.exports = new Watcher();
