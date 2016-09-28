@@ -1,8 +1,9 @@
-// var EventEmitter = require('events').EventEmitter;
 const chokidar = require('chokidar');
 const assign = require('object-assign');
 const anymatch = require('anymatch');
 const path = require('path');
+const async = require('async');
+// const EventEmitter = require('events').EventEmitter;
 
 const defaults = {
   ignored: [
@@ -70,14 +71,22 @@ class Watcher {
   }
 
   onChange(filePath, stats) {
-    //TODO check for ignored
-    let i = -1;
-    while (++i < watchers.length) {
-      var w = watchers[i];
+
+    async.each(watchers, (w, callback) => {
       if (anymatch(w.src, filePath)) {
         w.cb(w);
       }
-    }
+      callback();
+    });
+
+    //TODO check for ignored
+    // let i = -1;
+    // while (++i < watchers.length) {
+    //   var w = watchers[i];
+    //   if (anymatch(w.src, filePath)) {
+    //     w.cb(w);
+    //   }
+    // }
   }
 }
 
