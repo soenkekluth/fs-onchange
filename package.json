@@ -1,6 +1,6 @@
 {
   "name": "fs-change-watcher",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "watch file and folder changes ",
   "main": "index.js",
   "scripts": {
@@ -11,11 +11,16 @@
     "url": "git+https://github.com/soenkekluth/fs-change-watcher.git"
   },
   "keywords": [
+    "fs",
     "watch",
+    "watchFile",
+    "watcher",
+    "watching",
     "file",
+    "fsevents",
+    "watch",
     "folder",
-    "onchange",
-    "fs"
+    "onchange"
   ],
   "author": "Sönke Kluth <soenke.kluth@gmail.com> (http://soenkekluth.com/)",
   "license": "MIT",

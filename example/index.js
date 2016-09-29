@@ -21,11 +21,14 @@ const onChangeHTML = (obj) => {
 }
 
 
-const appWatcher = watcher.add(path.resolve(__dirname, 'sass/app/_app.scss'), {}, onChangeAppSccs);
-watcher.add(path.resolve(__dirname, 'sass') + '/**/*.scss', { ignored: appWatcher.src }, onChangeSass);
+const appScssWatcher = watcher.add(path.resolve(__dirname, 'sass/app/_app.scss'), {}, onChangeAppSccs);
+
+watcher.add(path.resolve(__dirname, 'sass') + '/**/*.scss', { ignored: appScssWatcher.src }, onChangeSass);
 watcher.add(path.resolve(__dirname, 'js') + '/**/*.js', {}, onChangeJS);
 watcher.watch();
 
 
-
-watcher.add(path.resolve(__dirname, 'html') + '/**/*.html', {}, onChangeHTML);
+watcher.add([
+  path.resolve(__dirname, 'html') + '/**/*.html',
+  path.resolve(__dirname, 'html5') + '/**/*.html'
+], {}, onChangeHTML);
