@@ -4,6 +4,8 @@ const anymatch = require('anymatch');
 const path = require('path');
 const async = require('async');
 // const EventEmitter = require('events').EventEmitter;
+//
+//TODO cache files https://raw.githubusercontent.com/substack/watchify/master/index.js
 
 const defaults = {
   ignored: [
@@ -20,9 +22,10 @@ const watchers = [];
 
 class WatchedItem {
   constructor(src, config, cb) {
-    this.src = src;
-    this.config = config;
+    this.src = (typeof src === 'string') ? [src] : src;
+    this.config = assign({}, {ignored:[]}, config);
     this.cb = cb;
+    this.matcher = this.src.concat(this.config.ignored.map(item => '!'+item));
   }
 }
 
@@ -35,36 +38,47 @@ class Watcher {
       config: defaults,
       watching: false
     };
+
+    this.onChange = this.onChange.bind(this);
   }
 
   add(src, config, cb) {
-
+    const w = new WatchedItem(src, config, cb);
     if (typeof cb === 'function') {
-      watchers.push(new WatchedItem(src, config, cb));
-    }
+      watchers.push(w);
+      this.state.src.push(src);
+      // this.state.config = assign({}, this.state.config, config);
 
-    this.state.src.push(src);
-    this.state.config = assign({}, this.state.config, config);
+      if (this.state.watching) {
+        this.watcher.add(src);
+      }
+    }
+    return w;
   }
 
   remove() {}
 
-  watch() {
+  watch(src, config, cb) {
+    if (src) {
+      this.add(src, config, cb);
+    }
     this.start();
   }
 
   start() {
-    if (!this.watcher) {
+    if (!this.state.src.length) {
+      return;
+    }
+    if (!this.watcher || !this.state.watching) {
       this.watcher = chokidar.watch(this.state.src, this.state.config);
-      this.watcher.on('change', this.onChange.bind(this));
-    } else if (!this.state.watching) {
-
+      this.watcher.on('change', this.onChange);
     }
     this.state.watching = true;
   }
 
   stop() {
     if (this.watcher) {
+      this.watcher.off('change', this.onChange);
       this.watcher.close();
       this.state.watching = false;
     }
@@ -72,21 +86,13 @@ class Watcher {
 
   onChange(filePath, stats) {
 
+    //TODO check for ignored
     async.each(watchers, (w, callback) => {
-      if (anymatch(w.src, filePath)) {
+      if (anymatch(w.matcher, filePath)) {
         w.cb(w);
       }
       callback();
     });
-
-    //TODO check for ignored
-    // let i = -1;
-    // while (++i < watchers.length) {
-    //   var w = watchers[i];
-    //   if (anymatch(w.src, filePath)) {
-    //     w.cb(w);
-    //   }
-    // }
   }
 }
 

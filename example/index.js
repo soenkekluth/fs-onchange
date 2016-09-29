@@ -1,28 +1,22 @@
 const path = require('path');
 const watcher = require('../');
 
-const onChange = (obj) => {
-  console.log('onChange ', obj.src);
-}
-
-const onChangeFolder = (obj) => {
-  console.log('onChangeFolder ', obj.src);
+const onChangeSass = (obj) => {
+  console.log('onChangeSass ', obj);
 }
 
 
-const onChangeFile = (obj) => {
-  console.log('onChangeFile ', obj.src);
+const onChangeAppSccs = (obj) => {
+  console.log('onChangeAppSccs ', obj);
 }
 
 
 const onChangeJS = (obj) => {
-  console.log('onChangeJS ', obj.src);
+  console.log('onChangeJS ', obj);
 }
 
 
-watcher.add(path.resolve(__dirname , 'sass'), {}, onChangeFolder);
-watcher.add(path.resolve(__dirname , 'sass') + '/**/*.scss', {}, onChange);
-watcher.add(path.resolve(__dirname , 'sass/app/_app.scss'), {}, onChangeFile);
-watcher.add(path.resolve(__dirname , 'js') + '/**/*.js', {}, onChangeJS);
+const appWatcher = watcher.add(path.resolve(__dirname, 'sass/app/_app.scss'), {}, onChangeAppSccs);
+watcher.add(path.resolve(__dirname, 'sass') + '/**/*.scss', { ignored: appWatcher.src }, onChangeSass);
+watcher.add(path.resolve(__dirname, 'js') + '/**/*.js', {}, onChangeJS);
 watcher.watch();
-
