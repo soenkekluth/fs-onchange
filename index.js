@@ -23,9 +23,9 @@ const watchers = [];
 class WatchedItem {
   constructor(src, config, cb) {
     this.src = (typeof src === 'string') ? [src] : src;
-    this.config = assign({}, {ignored:[]}, config);
+    this.config = config || {};
     this.cb = cb;
-    this.matcher = this.src.concat(this.config.ignored.map(item => '!'+item));
+    this.matcher = this.config.ignored ? this.src.concat(this.config.ignored.map(item => '!' + item)) : this.src;
   }
 }
 
@@ -34,7 +34,6 @@ class Watcher {
   constructor() {
 
     this.state = {
-      src: [],
       config: defaults,
       watching: false
     };
@@ -46,8 +45,6 @@ class Watcher {
     const w = new WatchedItem(src, config, cb);
     if (typeof cb === 'function') {
       watchers.push(w);
-      this.state.src.push(src);
-      // this.state.config = assign({}, this.state.config, config);
 
       if (this.state.watching) {
         this.watcher.add(src);
@@ -66,11 +63,13 @@ class Watcher {
   }
 
   start() {
-    if (!this.state.src.length) {
+    if (!watchers.length) {
       return;
     }
     if (!this.watcher || !this.state.watching) {
-      this.watcher = chokidar.watch(this.state.src, this.state.config);
+      let src = [];
+      watchers.forEach(w => { src = src.concat(w.src); });
+      this.watcher = chokidar.watch(src, this.state.config);
       this.watcher.on('change', this.onChange);
     }
     this.state.watching = true;
@@ -85,8 +84,6 @@ class Watcher {
   }
 
   onChange(filePath, stats) {
-
-    //TODO check for ignored
     async.each(watchers, (w, callback) => {
       if (anymatch(w.matcher, filePath)) {
         w.cb(w);
