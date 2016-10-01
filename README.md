@@ -1,6 +1,19 @@
 # fs-change-watcher
 
+## Install
+````
+npm i --save fs-change-watcher
+````
 
+## CLI
+````
+onchange file.ext npm run build
+
+onchange 'path/**/*.js, path/**/*.scss' execute something
+
+onchange '[file1, file2, file3]' execute something
+
+````
 
 
 ````
