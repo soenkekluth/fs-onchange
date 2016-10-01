@@ -1,23 +1,29 @@
 # fs-change-watcher
 
 ## Install
-````
-npm i --save fs-change-watcher
-````
 
-## CLI
-````
+### local
+```bash
+npm i --save fs-change-watcher
+```
+### global
+```bash
+npm i -g fs-change-watcher
+```
+
+## Command Line
+```bash
 onchange file.ext npm run build
 
 onchange 'path/**/*.js, path/**/*.scss' execute something
 
 onchange '[file1, file2, file3]' execute something
 
-````
+```
 
 
 ## Node
-````
+```javascript
 
 const watcher = require('fs-change-watcher');
 const path = require('path');
@@ -54,6 +60,4 @@ watcher.add([
   path.resolve(__dirname, 'html5') + '/**/*.html'
 ], {}, onChangeHTML);
 
-
-
-````
+```
