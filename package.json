@@ -1,6 +1,6 @@
 {
   "name": "fs-change-watcher",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "watch file and folder changes ",
   "main": "index.js",
   "bin": {
