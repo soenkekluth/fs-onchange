@@ -1,13 +1,16 @@
 {
   "name": "fs-change-watcher",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "watch file and folder changes ",
   "main": "index.js",
   "bin": {
     "onchange": "./cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint index.js",
+    "example": "node example/index.js",
+    "cli": "./cli.js 'example/**/**' 'echo \"change\"'"
   },
   "repository": {
     "type": "git",
@@ -37,5 +40,10 @@
     "chokidar": "1.6.0",
     "minimist": "1.2.0",
     "object-assign": "4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "3.7.1",
+    "eslint-config-airbnb-base": "8.0.0",
+    "eslint-plugin-import": "2.0.0"
   }
 }

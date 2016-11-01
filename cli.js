@@ -24,26 +24,37 @@ if (!command) {
   return;
 }
 
+const commands = command.split('&&');
+
 
 const shell = (command) => {
-  if (!command) {
-    return;
-  }
-  exec(command, (error, stdout, stderr) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    console.log(stdout);
-    if (stderr) {
-      console.log(stderr);
-    }
-  });
+  return new Promise((resolve, reject) => {
 
+    var out = '';
+    exec(command, (error, stdout, stderr) => {
+      if (error) {
+        resolve(error);
+        return;
+      }
+      // console.log(stdout);
+      if (stderr) {
+        out = stderr;
+        // return;
+      }
+
+      out += stdout;
+
+      resolve(out);
+    });
+
+  });
 }
 
 watcher.add(src, {}, () => {
-  shell(command);
+
+  const p = commands.length > 1 ? Promise.all(commands.map(command => shell(command))) : shell(commands[0]);
+  p.catch((e) => { /*console.error(e) */})
+  p.then((e) => { console.log(e) });
 })
 
 

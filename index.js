@@ -5,15 +5,15 @@ const path = require('path');
 const async = require('async');
 // const EventEmitter = require('events').EventEmitter;
 //
-//TODO cache files https://raw.githubusercontent.com/substack/watchify/master/index.js
+// TODO cache files https://raw.githubusercontent.com/substack/watchify/master/index.js
 
 const defaults = {
   ignored: [
     /node_modules/,
-    /[\/\\]\./
+    /[\/\\]\./,
   ],
   useFsEvents: true,
-  persistent: true
+  persistent: true,
 };
 
 // extends EventEmitter {
@@ -25,17 +25,16 @@ class WatchedItem {
     this.src = (typeof src === 'string') ? [src] : src;
     this.config = config || {};
     this.cb = cb;
-    this.matcher = this.config.ignored ? this.src.concat(this.config.ignored.map(item => '!' + item)) : this.src;
+    this.matcher = this.config.ignored ? this.src.concat(this.config.ignored.map(item => `!${item}`)) : this.src;
   }
 }
 
 class Watcher {
 
   constructor() {
-
     this.state = {
       config: defaults,
-      watching: false
+      watching: false,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -53,7 +52,7 @@ class Watcher {
     return w;
   }
 
-  remove() {}
+  remove() {};
 
   watch(src, config, cb) {
     if (src) {
@@ -68,7 +67,7 @@ class Watcher {
     }
     if (!this.watcher || !this.state.watching) {
       let src = [];
-      watchers.forEach(w => { src = src.concat(w.src); });
+      watchers.forEach((w) => { src = src.concat(w.src); });
       this.watcher = chokidar.watch(src, this.state.config);
       this.watcher.on('change', this.onChange);
     }
@@ -86,7 +85,14 @@ class Watcher {
   onChange(filePath, stats) {
     async.each(watchers, (w, callback) => {
       if (anymatch(w.matcher, filePath)) {
-        w.cb(w);
+        const result = {
+          src: w.src,
+          config: w.config,
+          matcher: w.matcher,
+          filePath: filePath,
+          stats: stats,
+        };
+        w.cb(result);
       }
       callback();
     });
