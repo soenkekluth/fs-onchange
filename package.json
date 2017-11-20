@@ -35,15 +35,15 @@
   },
   "homepage": "https://github.com/soenkekluth/fs-change-watcher#readme",
   "dependencies": {
-    "anymatch": "1.3.0",
-    "async": "2.0.1",
-    "chokidar": "1.6.0",
+    "anymatch": "1.3.2",
+    "async": "2.6.0",
+    "chokidar": "1.7.0",
     "minimist": "1.2.0",
-    "object-assign": "4.1.0"
+    "object-assign": "4.1.1"
   },
   "devDependencies": {
-    "eslint": "3.7.1",
-    "eslint-config-airbnb-base": "8.0.0",
-    "eslint-plugin-import": "2.0.0"
+    "eslint": "4.11.0",
+    "eslint-config-airbnb-base": "12.1.0",
+    "eslint-plugin-import": "2.8.0"
   }
 }
