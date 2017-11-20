@@ -1,5 +1,7 @@
 # fs-change-watcher
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/soenkekluth/fs-change-watcher.svg)](https://greenkeeper.io/)
+
 ## Install
 
 ### local
