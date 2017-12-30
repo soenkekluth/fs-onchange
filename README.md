@@ -1,14 +1,14 @@
-# fs-change-watcher
+# fs-onchange
 
 ## Install
 
 ### local
 ```bash
-npm i --save fs-change-watcher
+npm i --save fs-onchange
 ```
 ### global
 ```bash
-npm i -g fs-change-watcher
+npm i -g fs-onchange
 ```
 
 ## Command Line
@@ -25,7 +25,7 @@ onchange '[file1, file2, file3]' execute something
 ## Node
 ```javascript
 
-const watcher = require('fs-change-watcher');
+const watcher = require('fs-onchange');
 const path = require('path');
 
 const onChangeSass = (obj) => {

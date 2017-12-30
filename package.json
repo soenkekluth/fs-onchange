@@ -1,12 +1,11 @@
 {
-  "name": "fs-change-watcher",
+  "name": "fs-onchange",
   "version": "1.0.0",
   "description": "watch file and folder changes ",
   "main": "index.js",
   "bin": {
     "onchange": "./cli.js",
-    "fs-onchange": "./cli.js",
-    "fs-change-watcher": "./cli.js"
+    "fs-onchange": "./cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/soenkekluth/fs-change-watcher.git"
+    "url": "git+https://github.com/soenkekluth/fs-onchange.git"
   },
   "keywords": [
     "fs",
@@ -33,9 +32,9 @@
   "author": "Sönke Kluth <soenke.kluth@gmail.com> (http://soenkekluth.com/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/soenkekluth/fs-change-watcher/issues"
+    "url": "https://github.com/soenkekluth/fs-onchange/issues"
   },
-  "homepage": "https://github.com/soenkekluth/fs-change-watcher#readme",
+  "homepage": "https://github.com/soenkekluth/fs-onchange#readme",
   "dependencies": {
     "@arr/unique": "^1.0.0",
     "anymatch": "^2.0.0",
