@@ -1,10 +1,12 @@
 {
   "name": "fs-change-watcher",
-  "version": "0.2.6",
+  "version": "1.0.0",
   "description": "watch file and folder changes ",
   "main": "index.js",
   "bin": {
-    "onchange": "./cli.js"
+    "onchange": "./cli.js",
+    "fs-onchange": "./cli.js",
+    "fs-change-watcher": "./cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -35,15 +37,17 @@
   },
   "homepage": "https://github.com/soenkekluth/fs-change-watcher#readme",
   "dependencies": {
-    "anymatch": "1.3.0",
-    "async": "2.0.1",
-    "chokidar": "1.6.0",
-    "minimist": "1.2.0",
-    "object-assign": "4.1.0"
+    "@arr/unique": "^1.0.0",
+    "anymatch": "^2.0.0",
+    "arrify": "^1.0.1",
+    "async": "^2.6.0",
+    "chokidar": "^2.0.0",
+    "minimist": "^1.2.0",
+    "object-assign": "^4.1.1"
   },
   "devDependencies": {
-    "eslint": "3.7.1",
-    "eslint-config-airbnb-base": "8.0.0",
-    "eslint-plugin-import": "2.0.0"
+    "eslint": "^4.14.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
   }
 }
