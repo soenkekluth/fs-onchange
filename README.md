@@ -1,4 +1,5 @@
 # fs-onchange
+Use glob patterns to watch files and folders to run a command when anything is added, changed or deleted. Edit
 
 ## Install
 
