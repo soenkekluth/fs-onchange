@@ -4,6 +4,10 @@
     "es6": true,
     "node": true
   },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
   "plugins": [
     "import"
   ],
@@ -15,5 +19,4 @@
     "no-useless-constructor": 1,
     "no-empty-function": 1
   }
-
 }

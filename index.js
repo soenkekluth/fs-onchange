@@ -3,43 +3,35 @@ const assign = require('object-assign');
 const anymatch = require('anymatch');
 const path = require('path');
 const async = require('async');
-// const crypto = require('crypto');
 const unique = require('@arr/unique');
 const arrify = require('arrify');
-// const EventEmitter = require('events').EventEmitter;
-//
-// TODO cache files https://raw.githubusercontent.com/substack/watchify/master/index.js
+const chalk = require('chalk');
+
+const log = console.log;
+
 
 const defaults = {
-  ignored: [
-    /node_modules/,
-    /[\/\\]\./,
-  ],
-  useFsEvents: true,
+  ignored: ['**/node_modules/**', /[\/\\]\./],
+  // useFsEvents: true,
   persistent: true,
 };
-
-// extends EventEmitter {
 
 const watchers = [];
 
 class WatchedItem {
   constructor(src, config, cb) {
-    // this.id = crypto
-    //   .createHash('md5')
-    //   .update(src.toString())
-    //   .digest('hex');
     this.src = unique(arrify(src));
-    // console.log(this.id);
-
     this.config = config || {};
     this.cb = cb;
-    this.matcher = this.config.ignored ? this.src.concat(unique(this.config.ignored).map(item => `!${item}`)) : this.src;
+    this.matcher = this.config.ignored
+      ? this.src.concat(unique(this.config.ignored).map(item => `!${item}`))
+      : this.src;
   }
 }
 
 class Watcher {
-  constructor() {
+  constructor(props) {
+    this.props = Object.assign({}, props);
     this.state = {
       config: defaults,
       watching: false,
@@ -47,13 +39,13 @@ class Watcher {
     };
     this.watcher = null;
     this.onChange = this.onChange.bind(this);
+    this.start = this.watch.bind(this);
   }
 
   add(src, config, cb) {
     const w = new WatchedItem(src, config, cb);
     if (typeof cb === 'function') {
       watchers.push(w);
-      // console.log('add', w);
       if (this.state.watching) {
         this.watcher.add(src);
       }
@@ -61,7 +53,9 @@ class Watcher {
     return w;
   }
 
-  remove() {}
+  remove(src) {
+    this.watcher.unwatch(src);
+  }
 
   watch(src, config, cb) {
     if (src) {
@@ -69,19 +63,12 @@ class Watcher {
     }
 
     if (!this.state.watching && watchers.length) {
-      let sources = [];
-      watchers.forEach((w) => {
-        sources = sources.concat(w.src);
-      });
-
+      const sources = watchers.map(w => w.src);
+      log(`${chalk.green('watching filesystem for changes in:')}\n${chalk.blue(sources.join('\n'))}`);
       this.watcher = chokidar.watch(sources, this.state.config);
       this.watcher.on('change', this.onChange);
     }
     this.state.watching = true;
-  }
-
-  start() {
-    this.watch();
   }
 
   stop() {
@@ -90,6 +77,7 @@ class Watcher {
         this.watcher.off('change', this.onChange);
         this.watcher.close();
         this.watcher = null;
+        log(`${chalk.green('watching filesystem stopped')}`);
       }
       this.state.watching = false;
     }
@@ -106,6 +94,7 @@ class Watcher {
           stats,
         };
         w.cb(result);
+        log(`${chalk.green('file changed: ')} ${chalk.blue(path.relative(process.cwd(), filePath))}`);
       }
       callback();
     });

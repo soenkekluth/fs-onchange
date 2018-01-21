@@ -3,26 +3,29 @@
 ## Install
 
 ### local
+
 ```bash
 npm i --save fs-onchange
 ```
+
 ### global
+
 ```bash
 npm i -g fs-onchange
 ```
 
 ## Command Line
+
 ```bash
 onchange file.ext npm run build
 
 onchange 'path/**/*.js, path/**/*.scss' execute something
 
 onchange '[file1, file2, file3]' execute something
-
 ```
 
-
 ## Node
+
 ```javascript
 
 const watcher = require('fs-onchange');

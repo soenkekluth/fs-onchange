@@ -1,1 +1,1 @@
-var test = {};
+const test = { foo: 'hans' };

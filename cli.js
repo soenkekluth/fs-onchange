@@ -5,6 +5,9 @@ const { exec } = require('child_process');
 
 const argv = require('minimist')(process.argv.slice(2));
 
+const versbose = !!(argv.v);
+
+
 let src = argv._[0];
 if (src && src.indexOf(',') > -1) {
   src = src.split(' ').join('');
@@ -20,7 +23,6 @@ if (!src || !command) {
 }
 
 const commands = command.split('&&');
-
 
 const shell = cmd => new Promise((resolve, reject) => {
   let out = '';
@@ -39,8 +41,9 @@ const shell = cmd => new Promise((resolve, reject) => {
 
 watcher.add(src, {}, () => {
   const p = commands.length > 1 ? Promise.all(commands.map(cmd => shell(cmd))) : shell(commands[0]);
-  p.catch((e) => { /* console.error(e) */ });
-  p.then((e) => { console.log(e); });
+  p
+    .then((e) => { console.log(e); })
+    .catch((e) => { console.error(e); });
 });
 
 

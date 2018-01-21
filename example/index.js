@@ -9,6 +9,7 @@ const onChangeAppSccs = (obj) => {
   console.log('onChangeAppSccs ', obj);
 };
 
+
 const onChangeJS = (obj) => {
   console.log('onChangeJS ', obj);
 };
@@ -23,7 +24,6 @@ watcher.add(`${path.resolve(__dirname, 'sass')}/**/*.scss`, { ignored: appScssWa
 watcher.add(`${path.resolve(__dirname, 'js')}/**/*.js`, {}, onChangeJS);
 watcher.watch();
 
-
 watcher.add([
   `${path.resolve(__dirname, 'html')}/**/*.html`,
   `${path.resolve(__dirname, 'html5')}/**/*.html`,
@@ -31,3 +31,4 @@ watcher.add([
   `${path.resolve(__dirname, 'html5')}/**/*.html`,
   `${path.resolve(__dirname, 'html5')}/**/*.html`,
 ], {}, onChangeHTML);
+
