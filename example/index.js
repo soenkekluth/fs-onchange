@@ -27,8 +27,5 @@ watcher.watch();
 watcher.add([
   `${path.resolve(__dirname, 'html')}/**/*.html`,
   `${path.resolve(__dirname, 'html5')}/**/*.html`,
-  `${path.resolve(__dirname, 'html5')}/**/*.html`,
-  `${path.resolve(__dirname, 'html5')}/**/*.html`,
-  `${path.resolve(__dirname, 'html5')}/**/*.html`,
 ], {}, onChangeHTML);
 

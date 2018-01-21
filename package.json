@@ -1,6 +1,6 @@
 {
   "name": "fs-onchange",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "watch file and folder changes ",
   "main": "index.js",
   "bin": {
