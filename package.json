@@ -39,7 +39,7 @@
     "@arr/unique": "^1.0.0",
     "anymatch": "^2.0.0",
     "arrify": "^1.0.1",
-    "async": "^2.6.0",
+    "async": "^3.2.2",
     "chalk": "^2.3.0",
     "chokidar": "^2.0.0",
     "globby": "^7.1.1",
