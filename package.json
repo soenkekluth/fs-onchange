@@ -37,13 +37,13 @@
   "homepage": "https://github.com/soenkekluth/fs-onchange#readme",
   "dependencies": {
     "@arr/unique": "^1.0.0",
-    "anymatch": "^2.0.0",
+    "anymatch": "^3.0.0",
     "arrify": "^1.0.1",
     "async": "^2.6.0",
     "chalk": "^2.3.0",
-    "chokidar": "^2.0.0",
+    "chokidar": "^3.0.0",
     "globby": "^7.1.1",
-    "micromatch": "^3.1.5",
+    "micromatch": "^4.0.0",
     "minimist": "^1.2.0",
     "object-assign": "^4.1.1"
   },
